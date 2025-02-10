@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teddy Surprise</title>
+    <style>
+        /* Global Styles */
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #ffe6f2;
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        h1 {
+            color: #ff4da6;
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+
+        /* Button Styles */
+        .button {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            background-color: #ff4da6;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out 0.5s forwards, bounce 1.5s infinite;
+        }
+
+        /* Full-Screen Image Styles (Page 2) */
+        .hidden-content img {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover; /* Ensures full coverage without distortion */
+            border-radius: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+
+        /* Last Image (Page 3) - Almost Full-Screen */
+        .image-container {
+            position: absolute;
+            top: 80px; /* Adjust to keep text visible */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90vw;  /* Almost full-screen */
+            max-height: 80vh; /* Keep space for text */
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Page Hidden Content Styles */
+        .page-hidden {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            animation: floatUp 4s infinite ease-in-out;
+            opacity: 0.7;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        @keyframes floatUp {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Page 1 -->
+    <div id="page1" class="page-hidden">
+        <h1>💖 Tap Here for Your Gift 💖</h1>
+        <a href="javascript:void(0)" onclick="showPage(2)"><button class="button">Tap Here for Your Gift</button></a>
+    </div>
+
+    <!-- Page 2 -->
+    <div id="page2" class="page-hidden">
+        <h1>🎁 ❤️ </h1>
+        <div class="hidden-content">
+            <img src="teddy.jpeg" alt="Teddy">
+        </div>
+        <a href="javascript:void(0)" onclick="showPage(3)"><button class="button">Tap Here for Cuter Teddy</button></a>
+    </div>
+
+    <!-- Page 3 -->
+    <div id="page3" class="page-hidden">
+        <h1>Cuty ❤️🫠</h1>
+        <div class="image-container">
+            <img src="amisha.jpeg" alt="Cuter Teddy">
+        </div>
+    </div>
+
+    <script>
+        // Show the first page on load
+        window.onload = function() {
+            showPage(1);
+            createHearts();
+        }
+
+        // Function to show specific page
+        function showPage(pageNumber) {
+            // Hide all pages
+            var pages = document.querySelectorAll('.page-hidden');
+            pages.forEach(function(page) {
+                page.style.display = 'none';
+            });
+
+            // Show the selected page
+            var activePage = document.getElementById('page' + pageNumber);
+            activePage.style.display = 'block';
+            activePage.style.opacity = '0';
+
+            // Fade-in effect
+            setTimeout(() => {
+                activePage.style.transition = 'opacity 1.5s';
+                activePage.style.opacity = '1';
+            }, 100);
+        }
+
+        // Function to create floating hearts
+        function createHearts() {
+            setInterval(() => {
+                let heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                document.body.appendChild(heart);
+
+                // Randomize position
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = (Math.random() * 2 + 3) + "s"; // 3 to 5 seconds
+                heart.style.fontSize = (Math.random() * 10 + 20) + "px"; // Vary size
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000); // Remove after animation
+            }, 500); // New heart every 0.5 seconds
+        }
+    </script>
+
+</body>
+</html>
